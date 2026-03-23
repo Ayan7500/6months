@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 6 Months!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Georgia', serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #4a0000 0%, #2b0000 50%, #1a0000 100%);
+      background-attachment: fixed;
+      color: #ffffff;
+      overflow-x: hidden;
+      padding-bottom: 100px;
+    }
+
+    /* BIG HEART OVERLAY */
+    #heartOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85); /* Darken background for focus */
+      display: none; /* Starts hidden */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .big-heart {
+      font-size: clamp(200px, 50vw, 500px);
+      color: #ff4da6;
+      text-shadow: 0 0 50px #ff4da6;
+      animation: heartbeat 1.5s infinite;
+      user-select: none;
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(0.8); }
+    }
+
+    /* HEADER */
+    .hero {
+      height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 5;
+      position: relative;
+    }
+
+    .glow-text {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      text-shadow: 0 0 15px #ff4da6;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 15px 40px;
+      background: #ff4da6;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+      transition: 0.3s;
+      z-index: 10;
+    }
+
+    .btn:hover { transform: scale(1.05); background: #ff75b5; }
+
+    /* WIDER POLAROID STYLING */
+    .content-feed {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .memory-item {
+      margin-bottom: 100px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .polaroid {
+      background: #fdfdfd;
+      padding: 20px 20px 60px 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      border-radius: 3px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      width: 100%;
+      max-width: 550px;
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid #eee;
+    }
+
+    .polaroid .caption {
+      margin-top: 25px;
+      color: #333;
+      font-size: 1.3rem;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .tilt-left { transform: rotate(-2deg); }
+    .tilt-right { transform: rotate(3deg); }
+
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.03);
+      z-index: 20;
+      box-shadow: 0 20px 50px rgba(255, 77, 166, 0.4);
+    }
+
+    /* SECRET NOTE */
+    .secret-container {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .secret-lock {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px dashed #ff4da6;
+      padding: 20px;
+      border-radius: 15px;
+      cursor: pointer;
+      display: inline-block;
+      transition: 0.3s;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0px rgba(255, 77, 166, 0.4); }
+      70% { box-shadow: 0 0 0 15px rgba(255, 77, 166, 0); }
+      100% { box-shadow: 0 0 0 0px rgba(255, 77, 166, 0); }
+    }
+
+    #noteContent {
+      display: none;
+      margin: 25px auto 0;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #2b0000;
+      border-radius: 12px;
+      max-width: 600px;
+      line-height: 1.7;
+      font-size: 1.1rem;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    }
+
+    /* FALLING HEARTS */
+    .heart-particle {
+      position: fixed;
+      top: -10%;
+      color: #ff4da6;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="heartOverlay" onclick="closeHeart()">
+    <div class="big-heart">❤️</div>
+  </div>
+
+  <audio id="myAudio" loop>
+    <source src="ily.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="hero">
+    <h1 class="glow-text" id="typing"></h1>
+    <button class="btn" onclick="activateSurprise()">Click for a surprise ✨</button>
+  </div>
+
+  <div class="content-feed">
+    
+    <div class="memory-item">
+      <div class="polaroid tilt-left">
+        <img src="mewfirst.jpg" alt="Memory 1">
+        <div class="caption">I still remember how scared I was when i los your 7cups account and when i found your instagram account that was the best moment 😭</div>
+      </div>
+    </div>
+
+    <div class="memory-item">
+      <div class="polaroid tilt-right">
+        <img src="mewandbored.jpg" alt="Memory 2">
+        <div class="caption"> I love doing anything with you even something as playing minecraft </div>
+      </div>
+    </div>
+
+    <div class="memory-item">
+      <div class="polaroid tilt-left">
+        <img src="mewland.png" alt="Memory 3">
+        <div class="caption">Remember this playlist we made together , we should make more of this playlists </div>
+      </div>
+    </div>
+
+    <div class="memory-item">
+      <div class="polaroid tilt-right">
+        <img src="oliveblurberry.jpg" alt="Memory 4">
+        <div class="caption">This account 😭😭</div>
+      </div>
+    </div>
+
+    <div class="secret-container">
+      <div class="secret-lock" onclick="revealNote()">
+        <span>🔒 Open the secret note</span>
+      </div>
+      <div id="noteContent">
+        "I cant believe its been 6 months and I can't tell you just how much I enjoy talking to you , I love every late night talks we had , playing games together , watching youtube or just doing some random stupid thing , i love it and I wish we could just continue it forever . You are always there whenever I wanted  to talk to you and I will always be there whenever you need me 🫶🫶🫶
+P.S- Sorry its late ik , i didnt have time last days were kinda hectic ☹️🫶🫶🫶 "
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // 1. TYPING EFFECT
+    const titleText = "Happy 6 Months, Ananya! 🎉";
+    let i = 0;
+    function typeTitle() {
+      if (i < titleText.length) {
+        document.getElementById("typing").innerHTML += titleText.charAt(i);
+        i++;
+        setTimeout(typeTitle, 80);
+      }
+    }
+    window.onload = typeTitle;
+
+    // 2. FALLING HEARTS GENERATOR
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart-particle";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 10 + 10) + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+      heart.style.opacity = Math.random();
+      
+      document.body.appendChild(heart);
+      
+      setTimeout(() => {
+        heart.remove();
+      }, 7000);
+    }
+
+    setInterval(createHeart, 500);
+
+    // 3. SURPRISE (Music + Heart Overlay)
+    function activateSurprise() {
+      document.getElementById("myAudio").play();
+      
+      const overlay = document.getElementById("heartOverlay");
+      overlay.style.display = "flex";
+      setTimeout(() => { overlay.style.opacity = "1"; }, 10);
+      
+      // Burst effect for falling hearts
+      for(let k=0; k<20; k++) {
+        setTimeout(createHeart, k * 100);
+      }
+    }
+
+    function closeHeart() {
+      const overlay = document.getElementById("heartOverlay");
+      overlay.style.opacity = "0";
+      setTimeout(() => { overlay.style.display = "none"; }, 500);
+    }
+
+    // 4. REVEAL NOTE
+    function revealNote() {
+      const note = document.getElementById("noteContent");
+      const lock = document.querySelector(".secret-lock");
+      note.style.display = "block";
+      lock.innerHTML = "🔓 Opened for you";
+      lock.style.animation = "none";
+      note.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
