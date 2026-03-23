@@ -298,15 +298,45 @@ P.S- Sorry its late ik , i didnt have time last days were kinda hectic ☹️�
       setTimeout(() => { overlay.style.display = "none"; }, 500);
     }
 
-    // 4. REVEAL NOTE
-    function revealNote() {
-      const note = document.getElementById("noteContent");
-      const lock = document.querySelector(".secret-lock");
-      note.style.display = "block";
-      lock.innerHTML = "🔓 Opened for you";
-      lock.style.animation = "none";
-      note.scrollIntoView({ behavior: 'smooth' });
+   function revealNote() {
+  const note = document.getElementById("noteContent");
+  const lock = document.querySelector(".secret-lock");
+
+  const fullText = `I cant believe its been 6 months and I can't tell you just how much I enjoy talking to you , I love every late night talks we had , playing games together , watching youtube or just doing some random stupid thing , i love it and I wish we could just continue it forever . 
+
+You are always there whenever I wanted to talk to you and I will always be there whenever you need me 🫶🫶🫶
+
+P.S- Sorry its late ik , i didnt have time last days were kinda hectic ☹️🫶🫶🫶`;
+
+  note.style.display = "block";
+  note.innerHTML = ""; // clear existing text
+
+  lock.innerHTML = "🔓 Opened for you";
+  lock.style.animation = "none";
+
+  note.scrollIntoView({ behavior: 'smooth' });
+
+  let i = 0;
+
+  function typeNote() {
+    if (i < fullText.length) {
+      note.innerHTML += fullText.charAt(i);
+      i++;
+
+      // 👇 THIS is what makes it feel human
+      let delay = Math.random() * 40 + 30;
+
+      // Slight pauses after punctuation
+      if ([".", ",", "!", "?", "\n"].includes(fullText.charAt(i))) {
+        delay += 120;
+      }
+
+      setTimeout(typeNote, delay);
     }
+  }
+
+  setTimeout(typeNote, 500); // small delay before typing starts
+}
   </script>
 
 </body>
